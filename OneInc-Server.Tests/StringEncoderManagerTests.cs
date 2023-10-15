@@ -1,12 +1,4 @@
 ﻿using Moq;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.SignalR;
-using Moq;
-using NUnit.Framework;
-using OneInc_Server.Services;
 
 namespace OneInc_Server.Tests;
 
@@ -43,7 +35,7 @@ public class StringEncoderManagerTests
         var input = "Test";
         var cancellationTokenSource = new CancellationTokenSource();
         cancellationTokenSource.Cancel();
-        var expectedResult = "SGVsbG8sIFdvcmxkIQ==";
+        var expectedResult = "Test==";
         encoderMock.Setup(encoder => encoder.EncodeAsync(input)).ReturnsAsync(expectedResult);
 
         var stream = manager.StartEncodingStream(input, cancellationTokenSource.Token);
