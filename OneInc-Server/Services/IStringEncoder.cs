@@ -2,6 +2,6 @@
 {
     public interface IStringEncoder
     {
-        Task<IEnumerable<char>> EncodeAsync(string value);
+        Task<string> EncodeAsync(string value);
     }
 }
