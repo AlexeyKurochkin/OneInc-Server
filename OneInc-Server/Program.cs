@@ -3,7 +3,8 @@ using OneInc_Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSignalR();
-var allowedWebClientOrigin = builder.Configuration.GetSection("AllowedOrigins")["WebClient"];
+var allowedWebClientOrigin = Environment.GetEnvironmentVariable("ALLOWED_WEBCLIENT_ORIGINS") ??
+                             builder.Configuration.GetSection("AllowedOrigins")["WebClient"];
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowWebClient",
