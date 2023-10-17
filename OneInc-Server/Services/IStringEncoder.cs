@@ -1,7 +1,6 @@
-﻿namespace OneInc_Server.Services
+﻿namespace OneInc_Server.Services;
+
+public interface IStringEncoder
 {
-    public interface IStringEncoder
-    {
-        Task<string> EncodeAsync(string value);
-    }
+    Task<string> EncodeAsync(string value);
 }
