@@ -1,0 +1,16 @@
+﻿version: '3'
+services:
+    serv:
+        build:
+            context: ../
+            dockerfile: OneInc-Server/Dockerfile
+        ports:
+        - "32770:80"
+        - "32771:443"
+        environment:
+            ASPNETCORE_URLS: "http://+:80;https://+:443"
+            ASPNETCORE_HTTPS_PORT: "32771"
+            ALLOWED_WEBCLIENT_ORIGINS: "http://localhost:5173"
+        volumes:
+        - ${APPDATA}\microsoft\UserSecrets\:/root/.microsoft/usersecrets
+        - ${USERPROFILE}\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https/

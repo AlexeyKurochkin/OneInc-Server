@@ -1,20 +1,25 @@
 using OneInc_Server.Hubs;
+using OneInc_Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSignalR();
+var allowedWebClientOrigin = Environment.GetEnvironmentVariable("ALLOWED_WEBCLIENT_ORIGINS") ??
+                             builder.Configuration.GetSection("AllowedOrigins")["WebClient"];
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll",
+    options.AddPolicy("AllowWebClient",
         builder => builder.AllowAnyHeader()
             .AllowAnyMethod()
-            .SetIsOriginAllowed((host) => true)
+            .WithOrigins(allowedWebClientOrigin)
             .AllowCredentials());
 });
+builder.Services.AddScoped<IStringEncoderManager, StringEncoderManager>();
+builder.Services.AddScoped<IStringEncoder, StringEncoder>();
 
 var app = builder.Build();
-app.UseCors("AllowAll");
+app.UseCors("AllowWebClient");
 
 app.MapGet("/", () => "Hello World!");
-app.MapHub<EncodingHub>("/encodingHub");
+app.MapHub<EncodingHub>("/hubs/encodingHub");
 
 app.Run();
